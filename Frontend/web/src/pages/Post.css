@@ -1,0 +1,102 @@
+/* Page Background */
+.post-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #111827,
+    #1e293b
+  );
+}
+
+/* Main Card */
+.post-container {
+  max-width: 900px;
+  margin: auto;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Image */
+.post-image {
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Content */
+.post-content {
+  padding: 30px;
+}
+
+.post-title {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.post-author {
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 25px;
+}
+
+.post-description {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+/* Buttons */
+.post-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+
+  color: white;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.edit-btn {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+.edit-btn:hover {
+  background: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+.delete-btn {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.delete-btn:hover {
+  background: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}

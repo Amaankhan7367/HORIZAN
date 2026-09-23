@@ -1,0 +1,36 @@
+.logout-btn {
+    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.35),
+        0 0 20px rgba(255, 255, 255, 0.08);
+
+    transform: translateY(-2px);
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+}
+
+.logout-btn:focus {
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.1);
+}

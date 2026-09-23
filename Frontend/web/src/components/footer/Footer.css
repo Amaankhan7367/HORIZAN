@@ -1,0 +1,112 @@
+ :root {
+            --footer-bg: #121212;
+            --footer-text: #a0a0a0;
+            --footer-heading: #ffffff;
+            --footer-link-hover: #ffffff;
+            --footer-border: #2a2a2a;
+        }
+
+        /* Basic body styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex-grow: 1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1140px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        /* FOOTER STYLES START HERE */
+        
+        .footer-dark {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding-top: 3rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-dark__main-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile-first */
+            gap: 2.5rem;
+            padding-bottom: 2.5rem;
+        }
+
+        .footer-dark__brand .logo {
+            width: 120px;
+            margin-bottom: 1rem;
+        }
+        .footer-dark__brand .logo path {
+            fill: var(--footer-heading);
+        }
+
+        .footer-dark__heading {
+            color: var(--footer-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-dark__links ul { margin: 0; padding: 0; list-style: none; }
+        .footer-dark__links li:not(:last-child) { margin-bottom: 0.75rem; }
+        .footer-dark__links a { color: var(--footer-text); text-decoration: none; transition: color 0.2s; }
+        .footer-dark__links a:hover { color: var(--footer-link-hover); }
+
+        .footer-dark__bottom {
+            border-top: 1px solid var(--footer-border);
+            padding: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .footer-dark__copyright {
+            margin: 0;
+            text-align: center;
+            font-size: 0.875em;
+        }
+        
+        .footer-dark__social ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+        .footer-dark__social a { color: var(--footer-text); transition: color 0.2s; }
+        .footer-dark__social a:hover { color: var(--footer-link-hover); }
+        .footer-dark__social svg { width: 20px; height: 20px; fill: currentColor; }
+
+        @media (min-width: 600px) {
+            .footer-dark__main-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .footer-dark__main-grid {
+                grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            }
+            .footer-dark__bottom {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }

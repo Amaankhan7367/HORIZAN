@@ -1,0 +1,106 @@
+/* Background */
+body {
+    background: #0f1117;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Header */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    background: rgba(15, 17, 23, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 30px;
+}
+
+/* Nav */
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav__list {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav__item {
+    display: flex;
+    align-items: center;
+}
+
+/* Buttons */
+.nav__btn,
+.logout-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+
+    padding: 10px 18px;
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    transition: all 0.3s ease;
+}
+
+/* Glass Hover */
+.nav__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+/* Logout Hover (Red Glow) */
+.logout-btn:hover {
+    background: rgba(255, 59, 59, 0.15);
+    border-color: rgba(255, 59, 59, 0.35);
+    color: #ff6b6b;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 0 15px rgba(255, 59, 59, 0.25),
+        0 0 30px rgba(255, 59, 59, 0.12);
+}
+
+.nav__btn:active,
+.logout-btn:active {
+    transform: scale(0.97);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav__list {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav__btn,
+    .logout-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}
