@@ -1,5 +1,5 @@
 from sqlalchemy.orm import declarative_base ,Mapped, mapped_column,relationship
-from sqlalchemy import Column,String,Text, ForeignKey,DateTime,Float
+from sqlalchemy import Column,String,Text, ForeignKey,DateTime,Float,Boolean
 from uuid import uuid4
 from datetime import datetime,timedelta
 
@@ -58,6 +58,9 @@ class conversations(base):
     user1_id = Column(String, ForeignKey("users.id"), nullable=False)
     user2_id = Column(String, ForeignKey("users.id"), nullable=False)
 
+    user1_last_read_at = Column(DateTime, nullable=True)
+    user2_last_read_at = Column(DateTime, nullable=True)
+
 
 #===============ROOM===============#
 
@@ -98,3 +101,41 @@ class RoomMessage(base):
     createdAt = Column(DateTime,default=datetime.now)
     room = relationship("room",back_populates="messages")
 
+#===============RECENTS===============#
+
+class recents(base):
+    __tablename__="recents"
+
+    recentId = Column(String, nullable=False, unique=True, primary_key=True, default=lambda: str(uuid4()))
+    text = Column(String,nullable=True)
+    image = Column(String, nullable=True)
+    userID = Column(String,ForeignKey("users.id"))
+    latitude = Column(Float,nullable=False)
+    longitude = Column(Float,nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow,nullable=False)
+    expiresAt = Column(DateTime,nullable=False)
+
+class Nearby(base):
+    __tablename__ = "nearby"
+
+    userId = Column(
+        String,
+        ForeignKey("users.id"),
+        primary_key=True
+    )
+
+    latitude = Column(
+        Float,
+        nullable=False
+    )
+
+    longitude = Column(
+        Float,
+        nullable=False
+    )
+
+    location_enabled = Column(
+        Boolean,
+        default=False,
+        nullable=False
+    )

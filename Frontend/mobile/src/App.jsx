@@ -30,6 +30,9 @@ import Inbox from './components/pages/Inbox.jsx';
 import Chat from './components/pages/Chat.jsx';
 import Room from './components/pages/room.jsx';
 import RoomChat from './components/pages/roomchat.jsx';
+import Nearby from './components/pages/Nearby.jsx';
+import AddRecent from './components/pages/AddRecent.jsx';
+import RecentMap from './components/pages/RecentMap.jsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +59,9 @@ function AppContent() {
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="Room" component={Room} />
           <Stack.Screen name="RoomChat" component={RoomChat} />
+          <Stack.Screen name="AddRecent" component={AddRecent} />
+          <Stack.Screen name="Nearby" component={Nearby} />
+          <Stack.Screen name="RecentMap" component={RecentMap} />
         </Stack.Navigator>
       </View>
 

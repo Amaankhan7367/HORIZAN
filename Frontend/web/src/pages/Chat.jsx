@@ -24,6 +24,7 @@ function Chat() {
     const [loading, setLoading] = useState(true);
     const [sending, setSending] = useState(false);
     const [error, setError] = useState("");
+    const [receiver, setReceiver] = useState(null);
 
     const messagesEndRef = useRef(null);
 
@@ -38,6 +39,7 @@ function Chat() {
 
 
     const loadChat = async () => {
+        
         try {
             setLoading(true);
             setError("");
@@ -55,6 +57,17 @@ function Chat() {
                 await messageService.getMessages(conversationId);
 
             setMessages(data || []);
+
+            await messageService.markAsSeen(conversationId);
+
+            const otherUserId = data?.find(
+    (msg) => String(msg.senderId) !== String(user.id)
+)?.senderId;
+
+if (otherUserId) {
+    const userData = await authService.get_user_by_id(otherUserId);
+    setReceiver(userData);
+}
 
         } catch (error) {
             console.error("Chat load error:", error);
@@ -172,9 +185,11 @@ function Chat() {
 
 
                     <div className="chat-user-info">
-                        <h2>Conversation</h2>
-                        <p>Start chatting</p>
-                    </div>
+    <h2>
+        {receiver?.username || receiver?.name || "Loading..."}
+    </h2>
+    <p>Chat</p>
+</div>
 
                 </div>
 

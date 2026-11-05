@@ -1,14 +1,9 @@
 from pydantic import BaseModel, Field
 from uuid import uuid4
 from datetime import  datetime
+from typing import Optional
 
 
-# class user(BaseModel):
-#     id: str = Field(default_factory=lambda: str(uuid4()))
-#     username : str
-#     name:str
-#     gmail : str
-#     password : str
 
 class user(BaseModel):
     username : str
@@ -53,6 +48,8 @@ class PostUpdate(BaseModel):
     title: str | None = None
     content: str | None = None
     image: str | None = None
+
+
 
 
 
@@ -111,3 +108,49 @@ class RoomMessageResponse(RoomMessageCreate):
     senderId: str
     createdAt: datetime = Field(default_factory=datetime.now)
 
+
+#===============RECENTS===============#
+
+class TextRecent(BaseModel):
+    text:str
+    latitude: float
+    longitude: float
+
+class PhotoRecent(BaseModel):
+    image:str
+    text:Optional[str] =None
+    latitude: float
+    longitude: float
+    
+class TextResponse(TextRecent):
+    recentId:str
+    text:str
+    userId:str
+    latitude: float
+    longitude: float
+    created_at: datetime = Field(default_factory=datetime.now)
+    expires_at: datetime
+
+class PhotoResponse(PhotoRecent):
+    recentId:str
+    image:str
+    userId:str
+    latitude: float
+    longitude: float
+    created_at: datetime = Field(default_factory=datetime.now)
+    expires_at: datetime
+
+
+
+#===============NEARBY===============#
+
+class Nearby(BaseModel):
+    #userId: str
+    latitude: float
+    longitude: float
+    location_enabled: bool
+
+class NearbyResponse(Nearby):
+    userId:str
+    latitude: float
+    longitude: float

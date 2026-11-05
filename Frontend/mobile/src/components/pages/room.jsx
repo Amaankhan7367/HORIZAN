@@ -337,7 +337,7 @@ export default function Room({ navigation }) {
                 <TouchableOpacity
                     style={styles.navTab}
                     onPress={() =>
-                        navigation.navigate("Message")
+                        navigation.navigate("Inbox")
                     }
                 >
                     <Ionicons

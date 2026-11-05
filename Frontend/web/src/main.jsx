@@ -15,6 +15,9 @@ import Chat from './pages/Chat.jsx'
 import Post from './pages/Post.jsx';
 import Room from './pages/Room.jsx';
 import RoomChat from "./pages/RoomChat";
+import RecentMap from './pages/RecentMap.jsx';
+import AddRecent from './pages/AddRecent.jsx';
+import Nearby from './pages/Nearby.jsx';
 import './index.css';
 
 
@@ -49,6 +52,30 @@ const router = createBrowserRouter([
     element :(
       <AuthLayout authentication >
         <AllPost />
+      </AuthLayout>
+    )
+  },
+  {
+    path : "/recents",
+    element :(
+      <AuthLayout authentication >
+        <RecentMap />
+      </AuthLayout>
+    )
+  },
+   {
+    path : "/nearby",
+    element :(
+      <AuthLayout authentication >
+        <Nearby />
+      </AuthLayout>
+    )
+  },
+  {
+    path : "/add-recent",
+    element :(
+      <AuthLayout authentication >
+        <AddRecent />
       </AuthLayout>
     )
   },

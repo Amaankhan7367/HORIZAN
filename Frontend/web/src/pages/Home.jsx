@@ -3,6 +3,7 @@ import dbService from "../backend/dbService";
 import { useSelector } from "react-redux";
 import PostCard from "../components/PostCard";
 import './Home.css'
+import authService from "../backend/auth";
 
 function Home() {
   const status = useSelector((state) => state.auth.status);
@@ -33,7 +34,7 @@ function Home() {
             postId={post.postId}
             title={post.title}
             image={post.image}
-            userId={post.userId}
+            userId={post.userID}
           />
         ))}
       </div>

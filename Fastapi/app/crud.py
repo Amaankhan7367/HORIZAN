@@ -1,5 +1,5 @@
 from app.database import session
-from app.schemas import user,post,message,conversations,room,RoomMember
+from app.schemas import user,post,message,conversations,room,RoomMember,recents,Nearby
 from app.auth import hashing_password
 from datetime import datetime,timedelta
 import random
@@ -112,6 +112,8 @@ def get_all_post(db):
     return db.query(post).all()
 
 
+
+
 #================MESSAGE===============#
 
 def create_message(db,conversation_id,Message,sender_id):
@@ -152,7 +154,28 @@ def update_message(db,message_id,sender_id,Message):
     return db_message
 
 
+def mark_messages_seen(db, conversation_id, user_id):
 
+    conv = get_conversation(db, conversation_id)
+
+    if not conv:
+        return None
+
+    if user_id not in [conv.user1_id, conv.user2_id]:
+        return None
+
+    db.query(message).filter(
+        message.conversationId == conversation_id,
+        message.senderId != user_id,
+        message.status != "seen"
+    ).update(
+        {message.status: "seen"},
+        synchronize_session=False
+    )
+
+    db.commit()
+
+    return {"message": "Messages marked as seen"}
 
 
 
@@ -217,6 +240,29 @@ def get_user_conversations(db, user_id: str):
         )
         .all()
     )
+
+def get_user_conversations_with_unread(db, user_id):
+
+    convs = get_user_conversations(db, user_id)
+
+    result = []
+
+    for conv in convs:
+
+        unread_count = db.query(message).filter(
+            message.conversationId == conv.id,
+            message.senderId != user_id,
+            message.status != "seen"
+        ).count()
+
+        result.append({
+            "id": conv.id,
+            "user1_id": conv.user1_id,
+            "user2_id": conv.user2_id,
+            "unread_count": unread_count
+        })
+
+    return result
 
 
 def delete_conversation(db, conversation_id: str, user_id: str ):
@@ -468,3 +514,152 @@ def delete_expired_rooms(db):
     db.commit()
 
     return len(expired_rooms)
+
+
+#===============RECENTS===============#
+
+def addRecent(db,new_recent,user_id, latitude, longitude):
+
+    now = datetime.utcnow()
+    expires_at = now + timedelta(hours=24)
+
+    db_recent = recents(
+        text=getattr(new_recent, "text", None),
+        image=getattr(new_recent, "image", None),
+        userID = user_id,
+        latitude=latitude,
+        longitude=longitude,
+        created_at=now,
+        expiresAt=expires_at
+    )
+
+    db.add(db_recent)
+    db.commit()
+    db.refresh(db_recent)
+    return db_recent
+
+def deleteRecent(db,recent_id):
+    db_recent = db.query(recents).filter(recents.recentId == recent_id).first()
+
+    if not db_recent:
+        return None
+    
+    db.delete(db_recent)
+    db.commit()
+    return db_recent
+
+def allRecents(db):
+    all_recent = db.query(recents).filter(recents.expiresAt > datetime.utcnow()).all()
+
+    return all_recent
+
+
+#===============Nearby===============#
+
+
+
+# CREATE
+def create_nearby(
+    db,
+    userId: str,
+    latitude: float,
+    longitude: float,
+    location_enabled: bool
+):
+    nearby = Nearby(
+        userId=userId,
+        latitude=latitude,
+        longitude=longitude,
+        location_enabled=location_enabled
+    )
+
+    db.add(nearby)
+    db.commit()
+    db.refresh(nearby)
+
+    return nearby
+
+
+# READ - Current user's nearby data
+def get_nearby(
+    db,
+    userId: str
+):
+    return db.query(Nearby).filter(
+        Nearby.userId == userId
+    ).first()
+
+
+# READ - All users who enabled Nearby
+def get_enabled_nearby_users(
+    db,
+    userId: str
+):
+    return db.query(Nearby).filter(
+        Nearby.userId != userId,
+        Nearby.location_enabled == True
+    ).all()
+
+
+# UPDATE - Location + toggle
+def update_nearby(
+    db,
+    userId: str,
+    latitude: float,
+    longitude: float,
+    location_enabled: bool
+):
+    nearby = db.query(Nearby).filter(
+        Nearby.userId == userId
+    ).first()
+
+    if not nearby:
+        return None
+
+    nearby.latitude = latitude
+    nearby.longitude = longitude
+    nearby.location_enabled = location_enabled
+
+    db.commit()
+    db.refresh(nearby)
+
+    return nearby
+
+
+# UPDATE - Toggle only
+def update_nearby_status(
+    db,
+    userId: str,
+    location_enabled: bool
+):
+    nearby = db.query(Nearby).filter(
+        Nearby.userId == userId
+    ).first()
+
+    if not nearby:
+        return None
+
+    nearby.location_enabled = location_enabled
+
+    db.commit()
+    db.refresh(nearby)
+
+    return nearby
+
+
+# DELETE
+def delete_nearby(
+    db,
+    userId: str
+):
+    nearby = db.query(Nearby).filter(
+        Nearby.userId == userId
+    ).first()
+
+    if not nearby:
+        return None
+
+    db.delete(nearby)
+    db.commit()
+
+    return nearby

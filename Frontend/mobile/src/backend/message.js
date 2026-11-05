@@ -88,6 +88,22 @@ export class MessageService {
       throw error;
     }
   }
+  async markMessagesSeen(conversation_id) {
+  try {
+    const authHeader = await this.getAuthHeader();
+
+    const response = await this.api.put(
+      `/message/${conversation_id}/seen`,
+      {},
+      authHeader
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log("markMessagesSeen :: error", error);
+    throw error;
+  }
+}
 }
 
 const messageService = new MessageService();

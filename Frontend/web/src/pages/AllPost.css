@@ -1,0 +1,856 @@
+/* =====================================================
+   RECENT MAP PAGE
+===================================================== */
+
+.recent-map-page {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+
+    background: transparent;
+
+    color: #fff;
+}
+
+
+/* =====================================================
+   NAVBAR
+   SAME STYLE AS ALL POST
+===================================================== */
+
+.all-nav {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 18px 20px 10px;
+
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   NAV BUTTON
+===================================================== */
+
+.nav-tab {
+
+    position: relative;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #888;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    padding: 10px 28px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.2s ease;
+}
+
+
+/* =====================================================
+   HOVER
+===================================================== */
+
+.nav-tab:hover {
+
+    color: #fff;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.06
+    );
+}
+
+
+/* =====================================================
+   ACTIVE
+===================================================== */
+
+.nav-tab.active {
+
+    color: #fff;
+
+    background: rgba(
+        90,
+        100,
+        255,
+        0.18
+    );
+
+    box-shadow:
+
+        0 0 8px
+        rgba(
+            90,
+            100,
+            255,
+            0.18
+        ),
+
+        0 0 18px
+        rgba(
+            90,
+            100,
+            255,
+            0.12
+        );
+
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   ACTIVE BOTTOM GLOW
+===================================================== */
+
+.nav-tab.active::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 3px;
+
+    width: 25px;
+
+    height: 2px;
+
+    transform: translateX(-50%);
+
+    border-radius: 10px;
+
+    background: #6972ff;
+
+    box-shadow:
+
+        0 0 6px
+        rgba(
+            105,
+            114,
+            255,
+            0.8
+        ),
+
+        0 0 12px
+        rgba(
+            105,
+            114,
+            255,
+            0.5
+        );
+}
+
+
+/* =====================================================
+   CLICK
+===================================================== */
+
+.nav-tab:active {
+
+    transform: scale(0.96);
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.recent-map-header {
+
+    width: 100%;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+/* =====================================================
+   HEADER TITLE
+===================================================== */
+
+.recent-map-header h1 {
+
+    margin: 0;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #fff;
+}
+
+
+/* =====================================================
+   HEADER DESCRIPTION
+===================================================== */
+
+.recent-map-header p {
+
+    margin: 6px 0 0;
+
+    color: #888;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   LIVE STATUS
+===================================================== */
+
+.recent-map-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    background: rgba(
+        255,
+        50,
+        80,
+        0.08
+    );
+
+    border: 1px solid rgba(
+        255,
+        50,
+        80,
+        0.15
+    );
+
+    color: #ff6078;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =====================================================
+   LIVE DOT
+===================================================== */
+
+.live-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #ff3b5c;
+
+    box-shadow:
+        0 0 6px #ff3b5c,
+        0 0 12px rgba(
+            255,
+            59,
+            92,
+            0.5
+        );
+
+    animation: livePulse 1.5s infinite;
+}
+
+
+@keyframes livePulse {
+
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+
+/* =====================================================
+   MAP CONTAINER
+===================================================== */
+
+.recent-map-container {
+
+    position: relative;
+
+    width: calc(100% - 40px);
+
+    height: 600px;
+
+    margin: 0 20px 30px;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background: #111;
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.08
+    );
+
+    box-shadow:
+
+        0 0 20px
+        rgba(
+            0,
+            0,
+            0,
+            0.35
+        );
+}
+
+
+/* =====================================================
+   LEAFLET
+===================================================== */
+
+.recent-map-container
+.leaflet-container {
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 600px;
+
+    border-radius: 18px;
+
+}
+
+
+/* =====================================================
+   MAP OVERLAY
+===================================================== */
+
+.map-overlay {
+
+    position: absolute;
+
+    top: 15px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 1000;
+
+    padding: 8px 15px;
+
+    border-radius: 10px;
+
+    background: rgba(
+        15,
+        15,
+        25,
+        0.88
+    );
+
+    backdrop-filter: blur(10px);
+
+    color: #fff;
+
+    font-size: 13px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+}
+
+
+/* =====================================================
+   POST COUNT
+===================================================== */
+
+.recent-count {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 15px;
+
+    z-index: 1000;
+
+    padding: 8px 14px;
+
+    border-radius: 10px;
+
+    background: rgba(
+        15,
+        15,
+        25,
+        0.88
+    );
+
+    backdrop-filter: blur(10px);
+
+    color: #fff;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.08
+    );
+}
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+.recent-popup {
+
+    min-width: 180px;
+
+    max-width: 250px;
+
+    color: #111;
+}
+
+
+/* =====================================================
+   POPUP IMAGE
+===================================================== */
+
+.recent-popup-image {
+
+    width: 100%;
+
+    max-height: 180px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    margin-bottom: 8px;
+
+}
+
+
+/* =====================================================
+   POPUP TEXT
+===================================================== */
+
+.recent-popup p {
+
+    margin: 7px 0;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+}
+
+
+/* =====================================================
+   POPUP SMALL
+===================================================== */
+
+.recent-popup small {
+
+    color: #e53955;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   MY LOCATION POPUP
+===================================================== */
+
+.my-location-popup {
+
+    line-height: 1.5;
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.recent-map-loading {
+
+    min-height: 400px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: #aaa;
+
+    gap: 15px;
+}
+
+
+/* =====================================================
+   LOADING SPINNER
+===================================================== */
+
+.map-loading-spinner {
+
+    width: 35px;
+
+    height: 35px;
+
+    border-radius: 50%;
+
+    border: 3px solid rgba(
+        255,
+        255,
+        255,
+        0.1
+    );
+
+    border-top-color: #6972ff;
+
+    animation: mapSpin 0.8s linear infinite;
+}
+
+
+@keyframes mapSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =====================================================
+   ERROR PAGE
+===================================================== */
+
+.recent-map-error {
+
+    min-height: 400px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 20px;
+
+}
+
+
+.recent-map-error h2 {
+
+    margin-bottom: 8px;
+
+    color: #fff;
+
+}
+
+
+.recent-map-error p {
+
+    color: #888;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =====================================================
+   ERROR BUTTON
+===================================================== */
+
+.recent-map-error button {
+
+    border: none;
+
+    outline: none;
+
+    cursor: pointer;
+
+    padding: 10px 20px;
+
+    border-radius: 10px;
+
+    background: rgba(
+        90,
+        100,
+        255,
+        0.2
+    );
+
+    color: #fff;
+
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+
+.recent-map-error button:hover {
+
+    background: rgba(
+        90,
+        100,
+        255,
+        0.35
+    );
+
+}
+
+
+/* =====================================================
+   API ERROR
+===================================================== */
+
+.recent-map-error-message {
+
+    margin: 0 20px 15px;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    background: rgba(
+        255,
+        70,
+        90,
+        0.1
+    );
+
+    border: 1px solid rgba(
+        255,
+        70,
+        90,
+        0.15
+    );
+
+    color: #ff7185;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .all-nav {
+
+        gap: 6px;
+
+        padding:
+            14px
+            10px
+            8px;
+
+    }
+
+
+    .nav-tab {
+
+        font-size: 14px;
+
+        padding:
+            9px
+            20px;
+
+    }
+
+
+    .recent-map-header {
+
+        padding: 15px;
+
+    }
+
+
+    .recent-map-header h1 {
+
+        font-size: 23px;
+
+    }
+
+
+    .recent-map-header p {
+
+        font-size: 12px;
+
+    }
+
+
+    .recent-map-status {
+
+        padding:
+            6px
+            9px;
+
+        font-size: 10px;
+
+    }
+
+
+    .recent-map-container {
+
+        width:
+            calc(
+                100% - 20px
+            );
+
+        height: 500px;
+
+        margin:
+            0
+            10px
+            20px;
+
+    }
+
+
+    .recent-map-container
+    .leaflet-container {
+
+        min-height: 500px;
+
+    }
+
+
+    .recent-count {
+
+        top: 10px;
+
+        right: 10px;
+
+        font-size: 11px;
+
+        padding:
+            7px
+            10px;
+
+    }
+
+}
+
+/* =====================================================
+   ADD RECENT BUTTON
+===================================================== */
+
+.add-recent-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px 12px;
+    box-sizing: border-box;
+}
+
+.add-recent-btn {
+    border: none;
+    outline: none;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    background: rgba(90, 100, 255, 0.18);
+
+    border: 1px solid rgba(90, 100, 255, 0.25);
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+
+    box-shadow:
+        0 0 10px rgba(90, 100, 255, 0.08);
+}
+
+.add-recent-btn:hover {
+    background: rgba(90, 100, 255, 0.30);
+
+    box-shadow:
+        0 0 15px rgba(90, 100, 255, 0.18);
+
+    transform: translateY(-1px);
+}
+
+.add-recent-btn:active {
+    transform: scale(0.96);
+}

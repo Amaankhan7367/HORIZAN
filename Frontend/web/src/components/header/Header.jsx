@@ -13,7 +13,7 @@ function Header() {
   const navigate = useNavigate();
   const navItems =[
     {
-      name: "home",
+      name: "Home",
       slug: "/",
       active: true
     },
@@ -28,7 +28,7 @@ function Header() {
       active: !authStatus
     },
     {
-      name: "AllPost",
+      name: "Explore",
       slug: "/all-posts",
       active: authStatus
     },

@@ -1,6 +1,6 @@
 from fastapi import APIRouter,HTTPException,Depends
 from sqlalchemy.orm import Session
-from app.crud import create_message, update_message,get_messages,delete_message
+from app.crud import create_message, update_message,get_messages,delete_message,mark_messages_seen
 from app.models import MessageCreate,MessageUpdate
 from app.database import get_db
 from app.auth import get_current_user
@@ -49,3 +49,25 @@ def remove_message(message_id:str,sender_id=Depends(get_current_user),db:Session
     return {
         "message":"Message deleted successfully"
     }
+
+
+@routes.put("/{conversation_id}/seen")
+def mark_seen(
+    conversation_id: str,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    result = mark_messages_seen(
+        db,
+        conversation_id,
+        current_user.id
+    )
+
+    if not result:
+        raise HTTPException(
+            status_code=404,
+            detail="Conversation not found or unauthorized"
+        )
+
+    return result

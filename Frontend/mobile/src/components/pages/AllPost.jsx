@@ -5,15 +5,19 @@ import {
   StyleSheet,
   ActivityIndicator,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 
 import dbService from '../../backend/dbService';
 import PostCard from '../PostCard';
 import Container from '../container/Container';
 
-function AllPost({ navigation }) {
+function AllPost({ navigation, route }) {
   const [post, setPost] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Current active screen determination
+  const currentRouteName = route?.name || 'AllPosts';
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -40,7 +44,7 @@ function AllPost({ navigation }) {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#E50914" />
         <Text style={styles.loadingText}>
           Loading posts...
         </Text>
@@ -50,6 +54,61 @@ function AllPost({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {/* ================= NAVBAR ================= */}
+      <View style={styles.navContainer}>
+        <TouchableOpacity
+          style={[
+            styles.navTab,
+            currentRouteName === 'AllPost' && styles.activeTab,
+          ]}
+          onPress={() => navigation.navigate('AllPost')}
+        >
+          <Text
+            style={[
+              styles.navTabText,
+              currentRouteName === 'AllPost' && styles.activeTabText,
+            ]}
+          >
+            All Post
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.navTab,
+            currentRouteName === 'RecentMap' && styles.activeTab,
+          ]}
+          onPress={() => navigation.navigate('RecentMap')}
+        >
+          <Text
+            style={[
+              styles.navTabText,
+              currentRouteName === 'RecentMap' && styles.activeTabText,
+            ]}
+          >
+            Recents
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.navTab,
+            currentRouteName === 'Nearby' && styles.activeTab,
+          ]}
+          onPress={() => navigation.navigate('Nearby')}
+        >
+          <Text
+            style={[
+              styles.navTabText,
+              currentRouteName === 'Nearby' && styles.activeTabText,
+            ]}
+          >
+            Nearby
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* ================= CONTENT LIST ================= */}
       <Container>
         <FlatList
           data={post}
@@ -86,6 +145,48 @@ const styles = StyleSheet.create({
     backgroundColor: '#030712',
   },
 
+  /* Navbar Styles */
+  navContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 8,
+    backgroundColor: '#030712',
+    borderBottomWidth: 1,
+    borderBottomColor: '#1e293b',
+  },
+
+  navBar: {
+  flexDirection: "row",
+  backgroundColor: "#fff",
+  padding: 5,
+  borderRadius: 12,
+  marginHorizontal: 15,
+  marginVertical: 10,
+  elevation: 3,
+},
+
+navTab: {
+  flex: 1,
+  alignItems: "center",
+  justifyContent: "center",
+  paddingVertical: 12,
+  borderRadius: 10,
+},
+
+activeTab: {
+  backgroundColor: "#6C63FF",
+},
+
+navTabText: {
+  fontSize: 14,
+  fontWeight: "600",
+  color: "#555",
+},
+
+activeTabText: {
+  color: "#fff",
+},
   list: {
     padding: 20,
     paddingBottom: 40,

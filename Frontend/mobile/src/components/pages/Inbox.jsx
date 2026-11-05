@@ -12,6 +12,7 @@ import {
 
 import authService from '../../backend/auth';
 import conversationApi from '../../backend/conversation';
+import messageService from '../../backend/message';
 
 function Inbox({ navigation }) {
   const [currentUser, setCurrentUser] = useState(null);
@@ -51,9 +52,51 @@ function Inbox({ navigation }) {
       setCurrentUser(user);
 
       // Get user's conversations
+      // const data = await conversationApi.getConversations(user.id);
+
+      // setConversations(data || []);
       const data = await conversationApi.getConversations(user.id);
 
-      setConversations(data || []);
+// Get latest message of every conversation
+const conversationsWithTime = await Promise.all(
+  (data || []).map(async (conversation) => {
+    try {
+      const messages = await messageService.getMessages(
+        conversation.id
+      );
+
+      const latestMessage = [...(messages || [])].sort(
+        (a, b) =>
+          new Date(b.createdAt || 0).getTime() -
+          new Date(a.createdAt || 0).getTime()
+      )[0];
+
+      return {
+        ...conversation,
+        latestMessageTime: latestMessage?.createdAt || 0,
+        latestMessage,
+      };
+
+    } catch (error) {
+      console.error('Message fetch error:', error);
+
+      return {
+        ...conversation,
+        latestMessageTime: 0,
+        latestMessage: null,
+      };
+    }
+  })
+);
+
+// Sort newest conversation first
+const sortedConversations = conversationsWithTime.sort(
+  (a, b) =>
+    new Date(b.latestMessageTime || 0).getTime() -
+    new Date(a.latestMessageTime || 0).getTime()
+);
+
+setConversations(sortedConversations);
 
       const usersData = {};
 
@@ -135,8 +178,10 @@ function Inbox({ navigation }) {
       console.log('Conversation:', conversation);
 
       navigation.navigate('Chat', {
-        conversationId: conversation.id,
-      });
+  conversationId: conversation.id,
+  username: searchUser.username,
+  name: searchUser.name,
+});
     } catch (error) {
       console.error('Start conversation error:', error);
 
@@ -152,11 +197,21 @@ function Inbox({ navigation }) {
   // OPEN EXISTING CHAT
   // =========================
 
+  // const openConversation = (conversation) => {
+  //   navigation.navigate('Chat', {
+  //     conversationId: conversation.id,
+  //   });
+  // };
+ 
   const openConversation = (conversation) => {
-    navigation.navigate('Chat', {
-      conversationId: conversation.id,
-    });
-  };
+  const otherUser = conversationUsers[conversation.id];
+
+  navigation.navigate('Chat', {
+    conversationId: conversation.id,
+    username: otherUser?.username,
+    name: otherUser?.name,
+  });
+};
 
   // =========================
   // CLEAR SEARCH
@@ -370,6 +425,12 @@ function Inbox({ navigation }) {
                         Tap to open conversation
                       </Text>
                     </View>
+
+                    {/* Unread Message Green Dot */}
+
+{conversation.unread_count > 0 && (
+  <View style={styles.unreadDot} />
+)}
 
                     {/* Arrow */}
 
@@ -789,6 +850,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: 'center',
   },
+  unreadDot: {
+  width: 9,
+  height: 9,
+  borderRadius: 5,
+  backgroundColor: '#22c55e',
+  marginHorizontal: 8,
+},
 });
 
 export default Inbox;

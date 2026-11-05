@@ -1,0 +1,940 @@
+/* =====================================================
+   PAGE
+===================================================== */
+
+.recent-map-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background: transparent;
+    color: #fff;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.all-nav {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 18px 20px 10px;
+
+    box-sizing: border-box;
+
+    flex-shrink: 0;
+}
+
+
+.nav-tab {
+    position: relative;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #888;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    padding: 10px 28px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.2s ease;
+}
+
+
+.nav-tab:hover {
+    color: #fff;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.06
+    );
+}
+
+
+.nav-tab.active {
+    color: #fff;
+
+    background: rgba(
+        90,
+        100,
+        255,
+        0.18
+    );
+
+    box-shadow:
+        0 0 8px
+        rgba(
+            90,
+            100,
+            255,
+            0.18
+        ),
+        0 0 18px
+        rgba(
+            90,
+            100,
+            255,
+            0.12
+        );
+}
+
+
+.nav-tab.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 3px;
+
+    width: 25px;
+    height: 2px;
+
+    transform: translateX(-50%);
+
+    border-radius: 10px;
+
+    background: #6972ff;
+
+    box-shadow:
+        0 0 6px
+        rgba(
+            105,
+            114,
+            255,
+            0.8
+        ),
+        0 0 12px
+        rgba(
+            105,
+            114,
+            255,
+            0.5
+        );
+}
+
+
+.nav-tab:active {
+    transform: scale(0.96);
+}
+
+
+/* =====================================================
+   ADD RECENT
+===================================================== */
+
+.recent-action-bar {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    padding: 8px 20px 14px;
+
+    box-sizing: border-box;
+
+    flex-shrink: 0;
+
+    position: relative;
+
+    z-index: 1000;
+}
+
+
+.add-recent-btn {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 9px 18px;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(
+        105,
+        114,
+        255,
+        0.35
+    );
+
+    background: rgba(
+        90,
+        100,
+        255,
+        0.14
+    );
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.add-recent-btn:hover {
+    background: rgba(
+        90,
+        100,
+        255,
+        0.25
+    );
+
+    box-shadow:
+        0 0 18px
+        rgba(
+            90,
+            100,
+            255,
+            0.25
+        );
+
+    transform: translateY(-1px);
+}
+
+
+.add-recent-btn:active {
+    transform: scale(0.96);
+}
+
+
+.add-recent-icon {
+    width: 20px;
+    height: 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.12
+    );
+
+    font-size: 18px;
+}
+
+
+/* =====================================================
+   MAP
+===================================================== */
+
+.recent-map-container {
+    position: relative;
+
+    width: 100%;
+
+    height: calc(
+        100vh - 125px
+    );
+
+    min-height: 500px;
+
+    flex: 1;
+
+    overflow: hidden;
+}
+
+
+.recents-map {
+    width: 100%;
+
+    height: 100% !important;
+
+    min-height: 500px;
+
+    z-index: 1;
+}
+
+
+/* =====================================================
+   RECENT PIN
+===================================================== */
+.recent-pin-wrapper {
+  background: transparent !important;
+  border: none !important;
+}
+
+.recent-pin {
+  width: 42px;
+  height: 52px;
+  position: relative;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
+}
+
+.recent-pin::before {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 6px;
+  top: 2px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--pin-color) !important;
+  transform: rotate(-45deg);
+}
+
+.recent-pin-inner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 16px;
+  top: 12px;
+  border-radius: 50%;
+  background: white !important;
+  z-index: 2;
+}
+
+/* =====================================================
+   CURRENT LOCATION PIN
+===================================================== */
+
+.current-location-pin {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(
+        59,
+        130,
+        246,
+        0.25
+    );
+
+    border: 2px solid #3b82f6;
+
+    box-shadow:
+        0 0 0 7px
+        rgba(
+            59,
+            130,
+            246,
+            0.12
+        ),
+        0 0 20px
+        rgba(
+            59,
+            130,
+            246,
+            0.8
+        );
+}
+
+
+.current-location-dot {
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #3b82f6;
+
+    border: 2px solid #fff;
+}
+
+
+/* =====================================================
+   POPUP RESET
+===================================================== */
+
+.leaflet-popup-content {
+    margin: 0 !important;
+}
+
+
+.leaflet-popup-content-wrapper {
+    padding: 0 !important;
+
+    background: transparent !important;
+
+    border-radius: 14px !important;
+
+    box-shadow:
+        0 15px 40px
+        rgba(
+            0,
+            0,
+            0,
+            0.45
+        ) !important;
+}
+
+
+.leaflet-popup-tip {
+    background: #0a0f1e !important;
+}
+
+
+.leaflet-popup-close-button {
+    display: none !important;
+}
+
+
+/* =====================================================
+   RECENT POPUP
+===================================================== */
+
+.recent-popup-card {
+    width: 300px;
+
+    max-width: 80vw;
+
+    box-sizing: border-box;
+
+    padding: 14px;
+
+    background: rgba(
+        10,
+        15,
+        30,
+        0.97
+    );
+
+    color: #fff;
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.08
+    );
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    backdrop-filter: blur(16px);
+}
+
+
+/* =====================================================
+   USER
+===================================================== */
+
+.recent-user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 12px;
+}
+
+
+.recent-avatar {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6
+        );
+
+    color: #fff;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.recent-user-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    min-width: 0;
+}
+
+
+.recent-user-info strong {
+    color: #fff;
+
+    font-size: 14px;
+}
+
+
+.recent-user-info span {
+    color: #8b95aa;
+
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   IMAGE
+   NO CROPPING
+===================================================== */
+
+.recent-popup-image {
+    width: 100%;
+
+    max-height: 360px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+
+    background: #020617;
+}
+
+
+.recent-popup-image img {
+    display: block;
+
+    width: auto;
+    height: auto;
+
+    max-width: 100%;
+    max-height: 360px;
+
+    object-fit: contain;
+
+    border-radius: 12px;
+}
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+.recent-text {
+    margin: 10px 0;
+
+    color: #e5e7eb;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   LOCATION
+===================================================== */
+
+.recent-location {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 12px;
+
+    padding: 9px;
+
+    border-radius: 9px;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.04
+    );
+}
+
+
+.location-icon {
+    font-size: 18px;
+}
+
+
+.recent-location small {
+    display: block;
+
+    color: #8b95aa;
+
+    font-size: 10px;
+
+    margin-bottom: 2px;
+}
+
+
+.recent-location p {
+    margin: 0;
+
+    color: #dbeafe;
+
+    font-size: 11px;
+
+    font-family: monospace;
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+.recent-delete-btn {
+    width: 100%;
+
+    margin-top: 14px;
+
+    padding: 10px 14px;
+
+    border: 1px solid rgba(
+        239,
+        68,
+        68,
+        0.35
+    );
+
+    border-radius: 10px;
+
+    background: rgba(
+        239,
+        68,
+        68,
+        0.12
+    );
+
+    color: #f87171;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.recent-delete-btn:hover {
+    background: rgba(
+        239,
+        68,
+        68,
+        0.22
+    );
+
+    border-color: rgba(
+        239,
+        68,
+        68,
+        0.6
+    );
+}
+
+
+.recent-delete-btn:active {
+    transform: scale(0.97);
+}
+
+
+.recent-delete-btn:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   CURRENT LOCATION POPUP
+===================================================== */
+
+.current-location-popup {
+    padding: 10px 14px;
+
+    color: #fff;
+
+    background: #0a0f1e;
+
+    border-radius: 10px;
+}
+
+
+.current-location-title {
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+}
+
+
+.current-location-coordinates {
+    color: #93c5fd;
+
+    font-size: 11px;
+
+    font-family: monospace;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.recents-status {
+    position: absolute;
+
+    top: 20px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 1000;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    background: rgba(
+        0,
+        0,
+        0,
+        0.72
+    );
+
+    color: #fff;
+
+    font-size: 13px;
+
+    backdrop-filter: blur(10px);
+}
+
+
+/* =====================================================
+   LEGEND
+===================================================== */
+
+.recents-legend {
+    position: absolute;
+
+    right: 18px;
+    bottom: 18px;
+
+    z-index: 1000;
+
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    background: rgba(
+        10,
+        15,
+        30,
+        0.86
+    );
+
+    backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        0.1
+    );
+
+    color: #fff;
+}
+
+
+.legend-title {
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+
+.legend-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 6px;
+
+    color: #d1d5db;
+
+    font-size: 12px;
+}
+
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+}
+
+
+.legend-dot.blue {
+    background: #3b82f6;
+}
+
+
+.legend-dot.green {
+    background: #22c55e;
+}
+
+
+.legend-dot.purple {
+    background: #a855f7;
+}
+
+
+.legend-dot.orange {
+    background: #f59e0b;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .all-nav {
+        padding-top: 12px;
+    }
+
+
+    .nav-tab {
+        padding: 9px 20px;
+
+        font-size: 14px;
+    }
+
+
+    .recent-map-container {
+        height: calc(
+            100vh - 112px
+        );
+
+        min-height: 450px;
+    }
+
+
+    .recents-map {
+        min-height: 450px;
+    }
+
+
+    .recent-popup-card {
+        width: 280px;
+    }
+
+
+    .recent-popup-image {
+        max-height: 320px;
+    }
+
+
+    .recent-popup-image img {
+        max-height: 320px;
+    }
+
+
+    .recents-legend {
+        right: 10px;
+        bottom: 10px;
+
+        padding: 10px 12px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+    .nav-tab {
+        padding: 8px 15px;
+
+        font-size: 13px;
+    }
+
+
+    .add-recent-btn {
+        font-size: 13px;
+
+        padding: 8px 14px;
+    }
+
+
+    .recent-popup-card {
+        width: 250px;
+    }
+
+
+    .recents-legend {
+        display: none;
+    }
+
+}

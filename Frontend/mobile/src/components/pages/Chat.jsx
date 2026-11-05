@@ -20,7 +20,7 @@ import authService from '../../backend/auth';
 import messageService from '../../backend/message';
 
 function Chat({ navigation, route }) {
-  const { conversationId } = route.params;
+  const { conversationId, username, name } = route.params;
 
   const [currentUser, setCurrentUser] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -53,6 +53,9 @@ function Chat({ navigation, route }) {
       }
 
       setCurrentUser(user);
+
+      // Mark received messages as seen
+await messageService.markMessagesSeen(conversationId);
 
       const data =
         await messageService.getMessages(conversationId);
@@ -183,14 +186,14 @@ function Chat({ navigation, route }) {
         </View>
 
         <View style={styles.userInfo}>
-          <Text style={styles.headerTitle}>
-            Conversation
-          </Text>
+  <Text style={styles.headerTitle}>
+    {name || username || 'User'}
+  </Text>
 
-          <Text style={styles.headerSubtitle}>
-            Start chatting
-          </Text>
-        </View>
+  <Text style={styles.headerSubtitle}>
+    @{username || ''}
+  </Text>
+</View>
 
       </View>
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import authService from "../backend/auth";
 import conversationApi from "../backend/conversation";
+import messageService from "../backend/message";
 
 import {
     FaSearch,
@@ -37,58 +38,150 @@ function Inbox() {
         loadInbox();
     }, []);
 
-    const loadInbox = async () => {
-        try {
-            setLoading(true);
-            setError("");
+const loadInbox = async () => {
+    try {
+        setLoading(true);
+        setError("");
 
-            // Get logged-in user
-            const user = await authService.getCurrentUser();
+        // Get logged-in user
+        const user = await authService.getCurrentUser();
 
-            if (!user) {
-                setError("Please login again.");
-                return;
-            }
-
-            setCurrentUser(user);
-
-            // Get user's conversations
-            const data =
-                await conversationApi.getConversations(user.id);
-
-            setConversations(data || []);
-
-            const usersData = {};
-
-for (const conversation of data || []) {
-
-    // Find other user's UUID
-    const otherUserId =
-        String(conversation.user1_id) === String(user.id)
-            ? conversation.user2_id
-            : conversation.user1_id;
-
-    // UUID se user details lao
-    const otherUser =
-        await authService.get_user_by_id(otherUserId);
-
-    // Is conversation ke saath user save karo
-    usersData[conversation.id] = otherUser;
-}
-
-setConversationUsers(usersData);
-
-        } catch (error) {
-            console.error("Inbox load error:", error);
-
-            setError(
-                error.response?.data?.detail ||
-                "Failed to load conversations"
-            );
-        } finally {
-            setLoading(false);
+        if (!user) {
+            setError("Please login again.");
+            return;
         }
-    };
+
+        setCurrentUser(user);
+
+        // Get conversations
+        const data = await conversationApi.getConversations(user.id);
+
+        // Get latest message of every conversation
+        const conversationsWithTime = await Promise.all(
+            (data || []).map(async (conversation) => {
+                try {
+                    const messages = await messageService.getMessages(
+                        conversation.id
+                    );
+
+                    const latestMessage = [...(messages || [])].sort(
+                        (a, b) =>
+                            new Date(b.createdAt || 0).getTime() -
+                            new Date(a.createdAt || 0).getTime()
+                    )[0];
+
+                    return {
+                        ...conversation,
+                        latestMessageTime: latestMessage?.createdAt || 0
+                    };
+
+                } catch (error) {
+                    console.error(
+                        "Message fetch error:",
+                        conversation.id,
+                        error
+                    );
+
+                    return {
+                        ...conversation,
+                        latestMessageTime: 0
+                    };
+                }
+            })
+        );
+
+        // Sort newest conversation first
+        const sortedConversations = conversationsWithTime.sort(
+            (a, b) =>
+                new Date(b.latestMessageTime || 0).getTime() -
+                new Date(a.latestMessageTime || 0).getTime()
+        );
+
+        setConversations(sortedConversations);
+
+        // Load other users
+        const usersData = {};
+
+        for (const conversation of data || []) {
+
+            const otherUserId =
+                String(conversation.user1_id) === String(user.id)
+                    ? conversation.user2_id
+                    : conversation.user1_id;
+
+            const otherUser =
+                await authService.get_user_by_id(otherUserId);
+
+            usersData[conversation.id] = otherUser;
+        }
+
+        setConversationUsers(usersData);
+
+    } catch (error) {
+        console.error("Inbox load error:", error);
+
+        setError(
+            error.response?.data?.detail ||
+            "Failed to load conversations"
+        );
+
+    } finally {
+        setLoading(false);
+    }
+};
+
+//     const loadInbox = async () => {
+//         try {
+//             setLoading(true);
+//             setError("");
+
+//             // Get logged-in user
+//             const user = await authService.getCurrentUser();
+
+//             if (!user) {
+//                 setError("Please login again.");
+//                 return;
+//             }
+
+//             setCurrentUser(user);
+
+//             // Get user's conversations
+//             const data =
+//                 await conversationApi.getConversations(user.id);
+
+//             setConversations(data || []);
+
+//             const usersData = {};
+
+// for (const conversation of data || []) {
+
+//     // Find other user's UUID
+//     const otherUserId =
+//         String(conversation.user1_id) === String(user.id)
+//             ? conversation.user2_id
+//             : conversation.user1_id;
+
+//     // UUID se user details lao
+//     const otherUser =
+//         await authService.get_user_by_id(otherUserId);
+
+//     // Is conversation ke saath user save karo
+//     usersData[conversation.id] = otherUser;
+// }
+
+// setConversationUsers(usersData);
+
+//         } catch (error) {
+//             console.error("Inbox load error:", error);
+
+//             setError(
+//                 error.response?.data?.detail ||
+//                 "Failed to load conversations"
+//             );
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
 
     
 
@@ -463,8 +556,11 @@ setConversationUsers(usersData);
 
                                         </div>
 
-
+{conversation.unread_count > 0 && (
+    <span className="unread-dot"></span>
+)}
                                         {/* Arrow */}
+                                    
 
                                         <div className="conversation-arrow">
                                             ›

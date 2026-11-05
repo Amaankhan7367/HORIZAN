@@ -67,6 +67,22 @@ export class MessageService{
             throw error;
         }
     }
+    
+    async markAsSeen(conversation_id) {
+    try {
+        const response = await this.api.put(
+            `/message/${conversation_id}/seen`,
+            {},
+            this.getAuthHeader()
+        );
+
+        return response.data;
+
+    } catch (error) {
+        console.log("markAsSeen :: error", error);
+        throw error;
+    }
+}
 }
 
 const messageService = new MessageService();

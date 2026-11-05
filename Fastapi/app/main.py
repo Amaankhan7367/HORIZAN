@@ -10,6 +10,8 @@ from app.routes.conversation import routes as conversation_router
 from app.routes.message import routes as message_router
 from app.websocket.routes import router as websocket_router
 from app.routes.room import routes as room_router
+from app.routes.recent import router as recent_router
+from app.routes.nearby import router as nearby_router
 
 
 
@@ -42,3 +44,5 @@ app.include_router(conversation_router)
 app.include_router(message_router)
 app.include_router(websocket_router)
 app.include_router(room_router)
+app.include_router(recent_router)
+app.include_router(nearby_router)
